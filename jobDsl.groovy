@@ -1,28 +1,27 @@
-pipelineJob('python-flask-app'){
+pipelineJob('python-flask-app') {
     definition {
         cps {
             script('''
-                pipeline{
+                pipeline {
                     agent any
 
-                    stages{
-                        stage('Checkout Code'){
-                            steps{
+                    stages {
+                        stage('Checkout Code') {
+                            steps {
                                 git branch: 'main', url: 'https://github.com/shlomigispan/jenkins_proj.git'
-                                sh 'ls -la'
                             }
                         }
-                        stage('Build Docker Image'){
-                            steps{
-                                script{
+                        stage('Build Docker Image') {
+                            steps {
+                                script {
                                     sh 'docker build -t shlomigis/get_running_docker_containers ./get_running_docker_containers'
                                 }
                             }
                         }
-                        stage('Push Docker Image'){
-                            steps{
-                                script{
-                                    withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
+                        stage('Push Docker Image') {
+                            steps {
+                                script {
+                                    withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                                         sh 'docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD'
                                         sh 'docker push shlomigis/get_running_docker_containers'
                                     }
@@ -31,11 +30,11 @@ pipelineJob('python-flask-app'){
                         }
                     }
 
-                    post{
-                        success{
+                    post {
+                        success {
                             echo 'Docker image built and pushed successfully.'
                         }
-                        failure{
+                        failure {
                             echo 'Failed to build or push Docker image.'
                         }
                     }
@@ -44,6 +43,7 @@ pipelineJob('python-flask-app'){
         }
     }
 }
+
 
 pipelineJob('nginx-proxy-builder'){
     definition {
