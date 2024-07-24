@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  get_running_docker_containers:
+    image: shlomigis/get_running_docker_containers
+    container_name: get_running_docker_containers
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "5000:5000"
+  
+  nginx:
+    image: shlomigis/nginx-proxy
+    container_name: nginx
+    ports:
+      - "80:80"
+
+
+networks:
+  default:
+    name: jenkins_network
