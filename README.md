@@ -48,7 +48,7 @@ Run the containers with the correct settings
 Send the req
 
 4
-# commands
+commands:
 minikube stop
 minikube delete
 minikube start
