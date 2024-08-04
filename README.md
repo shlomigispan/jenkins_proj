@@ -25,9 +25,7 @@ Build a Python app that will show the Keda work
 # Steps:
 ### Step 1:
 Create the app and push it to GitHub
-
 docker-compose -f docker-compose-jenkins.yaml up -d
-
 Plugins: job dsl, pipeline, git
 Credentials: GitHub, DockerHub
 
