@@ -1,49 +1,51 @@
 # Jenkins & K8s Project
-a Jenkins groovy file that creates jobs ( look for job DSL plugin ). 
+The project aims to create a Jenkins groovy file that creates jobs (using job DSL plugin). 
 
 Items : 
 1
-Jenkins groovy file creates a pipeline job that pulls code from your GitHub repo.
-Build a docker container and push it to the docker hub. 
-The docker it builds is a python ( flask simple web application that talks to the local docker engine and gets the list of running containers ) 
+Jenkins groovy file that creates a pipeline job that pulls code from my GitHub repo.
+Build a docker container and push it to the DockerHub. 
+The docker that it builds is a python (flask simple web application that talks to the local docker engine and gets the list of running containers ).
 
 2
-Another job that takes a default Nginx docker file and modifies it and pushes a proxy pass to the first container (and injects
-in the request headers a source IP ) then push the container to docker hub  
+Another job that takes a default Nginx docker file, modifies it and pushes a proxy pass to the first container.
+Injects in the request headers a source IP.
+Then push the container to DockerHub.
 
 3
-A third job that runs the two containers and exposes the Nginx container ports only on the local Jenkins machine
-then sends a request to verify the request has gone ok and finishes successfully
+A third job that runs the two containers and exposes the Nginx container ports only on the local Jenkins machine.
+Then, it sends a request to verify the request has gone ok and finished successfully.
 
 4
-What is Keda utility? Build any k8s cluster and integrate this tool in the cluster.
+Build any k8s cluster and integrate Keda in the cluster.
+Build a Python app that will show the Keda work
  
 In the end, push everything to your GitHub project and send me the link.
 
 
-# steps:
+# Steps:
 1
-create the app and push it to gitHub
+Create the app and push it to GitHub
 
-## jenkins:
+## Jenkins:
 docker-compose -f docker-compose-jenkins.yaml up -d
 
-plagins: job dsl, pipeline, git
-cred: gitHub, dockerHub
+Plugins: job dsl, pipeline, git
+Credentials: GitHub, DockerHub
 
-pull the app
-build
-push to dockerhub
+Pull the app
+Build
+Push to DockerHub
 
 2
-get nginx image
-build and modifiy nginx.conf
-build docker image with the new nginx.conf
-push to dockerHub
+Get the nginx image
+Build and modify nginx.conf
+Build a docker image with the new nginx.conf
+Push to DockerHub
 
 3
-run the cointaines with the correct settings
-send the req
+Run the containers with the correct settings
+Send the req
 
 4
 # commands
