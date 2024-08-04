@@ -23,7 +23,7 @@ Build a Python app that will show the Keda work
 
 
 # Steps:
-1
+### Step 1:
 Create the app and push it to GitHub
 
 docker-compose -f docker-compose-jenkins.yaml up -d
@@ -35,17 +35,17 @@ Pull the app
 Build
 Push to DockerHub
 
-2
+### Step 2:
 Get the nginx image
 Build and modify nginx.conf
 Build a docker image with the new nginx.conf
 Push to DockerHub
 
-3
+### Step 3:
 Run the containers with the correct settings
 Send the req
 
-4
+### Step 4:
 commands:
 minikube stop
 minikube delete
