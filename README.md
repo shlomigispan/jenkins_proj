@@ -1,33 +1,31 @@
 # Jenkins & K8s Project
 The project aims to create a Jenkins groovy file that creates jobs (using job DSL plugin). 
 
-Items : 
-1
+## Items : 
+### Step 1:
 Jenkins groovy file that creates a pipeline job that pulls code from my GitHub repo.
 Build a docker container and push it to the DockerHub. 
 The docker that it builds is a python (flask simple web application that talks to the local docker engine and gets the list of running containers ).
 
-2
+### Step 2:
 Another job that takes a default Nginx docker file, modifies it and pushes a proxy pass to the first container.
 Injects in the request headers a source IP.
 Then push the container to DockerHub.
 
-3
+### Step 3:
 A third job that runs the two containers and exposes the Nginx container ports only on the local Jenkins machine.
 Then, it sends a request to verify the request has gone ok and finished successfully.
 
-4
+### Step 4:
 Build any k8s cluster and integrate Keda in the cluster.
 Build a Python app that will show the Keda work
  
-In the end, push everything to your GitHub project and send me the link.
 
 
 # Steps:
 1
 Create the app and push it to GitHub
 
-## Jenkins:
 docker-compose -f docker-compose-jenkins.yaml up -d
 
 Plugins: job dsl, pipeline, git
