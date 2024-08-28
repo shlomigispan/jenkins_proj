@@ -13,7 +13,7 @@ services:
     image: shlomigis/nginx-proxy
     container_name: nginx
     ports:
-      - "80:80"
+      - "5001:80"
 
 
 networks:

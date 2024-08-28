@@ -49,8 +49,13 @@ minikube stop
 minikube delete  
 minikube start  
 
+docker login
 docker build -t shlomigis/simulate-workload:latest .  
 docker push shlomigis/simulate-workload:latest  
+
+curl -fsSL https://get.helm.sh/helm-v3.9.1-linux-amd64.tar.gz -o helm.tar.gz
+tar -zxvf helm.tar.gz
+sudo mv linux-amd64/helm /usr/local/bin/helm
 
 kubectl create namespace keda  
 helm repo add kedacore https://kedacore.github.io/charts  
@@ -72,7 +77,7 @@ test:
 kubectl get svc simulate-workload  
 kubectl get pods -w  
 
-while true; do curl http://$(minikube ip):32447/cpu?duration=10; done  
+while true; do curl http://$(minikube ip):32431/cpu?duration=10; done  
 
 delete jenkins + volume  
 delete minikube  
