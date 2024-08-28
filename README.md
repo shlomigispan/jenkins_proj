@@ -1,80 +1,79 @@
 # Jenkins & K8s Project
-a Jenkins groovy file that creates jobs ( look for job DSL plugin ). 
+The project aims to create a Jenkins groovy file that creates jobs (using job DSL plugin). 
 
-Items : 
-1
-Jenkins groovy file creates a pipeline job that pulls code from your GitHub repo.
-Build a docker container and push it to the docker hub. 
-The docker it builds is a python ( flask simple web application that talks to the local docker engine and gets the list of running containers ) 
+## Items : 
+### Step 1:
+Jenkins groovy file that creates a pipeline job that pulls code from my GitHub repo.  
+Build a docker container and push it to the DockerHub.   
+The docker that it builds is a python (flask simple web application that talks to the local docker engine and gets the list of running containers ).  
 
-2
-Another job that takes a default Nginx docker file and modifies it and pushes a proxy pass to the first container (and injects
-in the request headers a source IP ) then push the container to docker hub  
+### Step 2:
+Another job that takes a default Nginx docker file, modifies it and pushes a proxy pass to the first container.  
+Injects in the request headers a source IP.  
+Then push the container to DockerHub.  
 
-3
-A third job that runs the two containers and exposes the Nginx container ports only on the local Jenkins machine
-then sends a request to verify the request has gone ok and finishes successfully
+### Step 3:
+A third job that runs the two containers and exposes the Nginx container ports only on the local Jenkins machine.  
+Then, it sends a request to verify the request has gone ok and finished successfully.  
 
-4
-What is Keda utility? Build any k8s cluster and integrate this tool in the cluster.
+### Step 4:
+Build any k8s cluster and integrate Keda in the cluster.  
+Build a Python app that will show the Keda work.  
  
-In the end, push everything to your GitHub project and send me the link.
 
 
-# steps:
-1
-create the app and push it to gitHub
+# Steps:
+### Step 1:
+Create the app and push it to GitHub.  
+docker-compose -f docker-compose-jenkins.yaml up -d.  
+Plugins: job dsl, pipeline, git.  
+Credentials: GitHub, DockerHub.  
 
-## jenkins:
-docker-compose -f docker-compose-jenkins.yaml up -d
+Pull the app.  
+Build.  
+Push to DockerHub.  
 
-plagins: job dsl, pipeline, git
-cred: gitHub, dockerHub
+### Step 2:
+Get the nginx image.  
+Build and modify nginx.conf.  
+Build a docker image with the new nginx.conf.  
+Push to DockerHub
 
-pull the app
-build
-push to dockerhub
+### Step 3:
+Run the containers with the correct settings.  
+Send the req.  
 
-2
-build and modifiy nginx.conf
-build docker image with the new nginx.conf
-push to dockerHub
+### Step 4:
+commands:  
+minikube stop  
+minikube delete  
+minikube start  
 
-3
-run the cointaines with the correct settings
-send the req
+docker build -t shlomigis/simulate-workload:latest .  
+docker push shlomigis/simulate-workload:latest  
 
-4
-# commands
-minikube stop
-minikube delete
-minikube start
+kubectl create namespace keda  
+helm repo add kedacore https://kedacore.github.io/charts  
+helm repo update  
+helm install keda kedacore/keda --namespace keda  
 
-docker build -t shlomigis/simulate-workload:latest .
-docker push shlomigis/simulate-workload:latest
+minikube addons enable metrics-server  
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml  
 
-kubectl create namespace keda
-helm repo add kedacore https://kedacore.github.io/charts
-helm repo update
-helm install keda kedacore/keda --namespace keda
+kubectl apply -f deployment.yaml  
+kubectl apply -f service.yaml  
+kubectl apply -f scaled-object.yaml  
 
-minikube addons enable metrics-server
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl delete -f deployment.yaml  
+kubectl delete -f service.yaml  
+kubectl delete -f scaled-object.yaml  
 
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl apply -f scaled-object.yaml
+test:  
+kubectl get svc simulate-workload  
+kubectl get pods -w  
 
-kubectl delete -f deployment.yaml
-kubectl delete -f service.yaml
-kubectl delete -f scaled-object.yaml
+while true; do curl http://$(minikube ip):32447/cpu?duration=10; done  
 
-test:
-kubectl get svc simulate-workload
-kubectl get pods -w
-
-while true; do curl http://$(minikube ip):32447/cpu?duration=10; done
-
-delete jenkins + volume
-delete minikube
-empty dockerHub
+delete jenkins + volume  
+delete minikube  
+empty dockerHub  
