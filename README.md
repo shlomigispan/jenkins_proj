@@ -36,7 +36,6 @@ build
 push to dockerhub
 
 2
-get nginx image
 build and modifiy nginx.conf
 build docker image with the new nginx.conf
 push to dockerHub

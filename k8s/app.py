@@ -8,19 +8,12 @@ app = Flask(__name__)
 def index():
     return "Hello, World!"
 
-@app.route('/sleep')
-def sleep():
-    duration = int(request.args.get('duration', 5))
-    time.sleep(duration)
-    return f"Slept for {duration} seconds"
-
 @app.route('/cpu')
 def cpu_load():
     duration = int(request.args.get('duration', 5))
     start_time = time.time()
-    # Perform a CPU-intensive task
     while time.time() - start_time < duration:
-        _ = math.sqrt(123456789)  # CPU-intensive calculation
+        _ = math.sqrt(123456789)
     return f"Completed CPU load for {duration} seconds"
 
 if __name__ == "__main__":
